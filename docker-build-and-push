@@ -1,0 +1,7 @@
+#!/usr/bin/env zsh
+
+set -e
+
+docker build -t eriknomitch/turing-pipeline-workspace .
+
+docker push eriknomitch/turing-pipeline-workspace

@@ -3,6 +3,7 @@ FROM nvidia/cuda:10.2-cudnn8-devel
 ENV APP_HOME /
 WORKDIR $APP_HOME
 
+
 RUN apt-get update
 RUN apt-get install --yes git curl build-essential wget
 
@@ -10,21 +11,26 @@ RUN wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh \
     && mkdir /root/.conda \
     && bash Miniconda3-latest-Linux-x86_64.sh -b
 
-ENV PATH=$PATH:/root/miniconda3/bin
+ENV PATH="/root/miniconda3/bin:${PATH}"
+ARG PATH="/root/miniconda3/bin:${PATH}"
+
+RUN conda update conda
 
 RUN conda install -y cudatoolkit=10.2 -c nvidia
 RUN conda install -y pytorch torchvision torchaudio -c pytorch -c nvidia
 RUN conda install -y pytorch-lightning -c conda-forge
 
-COPY requirements.txt ./
-RUN pip install --no-cache-dir -r ./requirements.txt
+# COPY requirements.txt ./
+# RUN pip install --no-cache-dir -r ./requirements.txt
 
 RUN git clone https://github.com/openai/CLIP
 RUN git clone https://github.com/CompVis/taming-transformers.git
 RUN git clone https://github.com/BachiLi/diffvg
 
 # Compile diffvg
-ENV DPYTHON3_LIBRARY /root/miniconda3/lib/libpython3.9.so
+# ENV DPYTHON3_LIBRARY /root/miniconda3/lib/
+
+# /root/miniconda3/lib/python3.9/
 
 WORKDIR diffvg
 RUN git submodule update --init --recursive

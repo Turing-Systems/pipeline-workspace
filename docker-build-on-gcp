@@ -8,10 +8,10 @@ echo $GCLOUD_PROJECT
 
 _project=`gcloud config get project`
 
-if [ $project != $GCLOUD_PROJECT ]; then
+if [[ $_project != $GCLOUD_PROJECT ]]; then
   echo "fatal: gcloud project isn't set to $GCLOUD_PROJECT"
   exit 1
 fi
 
-gcloud build --config=cloudbuild.yaml --project=$GCLOUD_PROJECT --timeout=1h
+gcloud builds submit --config=cloudbuild.yaml --project=$GCLOUD_PROJECT --timeout=2h
 

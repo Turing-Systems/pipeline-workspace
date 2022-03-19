@@ -1,6 +1,4 @@
-FROM nvidia/cuda:11.6.1-cudnn8-devel-ubuntu20.04
-
-# FROM nvidia/cuda:11.6.1-cudnn8-devel
+FROM nvidia/cuda:10.2-cudnn8-devel
 
 ENV APP_HOME /
 WORKDIR $APP_HOME
@@ -14,16 +12,12 @@ RUN wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh \
 
 ENV PATH=$PATH:/root/miniconda3/bin
 
-RUN conda install -y cudatoolkit=cuda-11.6.1 cuda-toolkit -c nvidia
+RUN conda install -y cudatoolkit=10.2 -c nvidia
 RUN conda install -y pytorch torchvision torchaudio -c pytorch -c nvidia
 RUN conda install -y pytorch-lightning -c conda-forge
 
-#COPY requirements.txt ./
-#RUN pip install --no-cache-dir -r ./requirements.txt
-
-# torch=1.11.0+cu113
-# torchvision=1.11.0+cu113
-# torchtext
+COPY requirements.txt ./
+RUN pip install --no-cache-dir -r ./requirements.txt
 
 RUN git clone https://github.com/openai/CLIP
 RUN git clone https://github.com/CompVis/taming-transformers.git
@@ -38,6 +32,7 @@ RUN conda install -y -c anaconda cmake
 RUN conda install -y -c conda-forge ffmpeg
 RUN export DIFFVG_CUDA=1; python setup.py install
 WORKDIR ..
+
 
 # Clone clipit last, since it's the second most-likely to change
 RUN git clone https://github.com/dribnet/clipit

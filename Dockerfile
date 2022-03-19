@@ -43,7 +43,7 @@ RUN conda install -y numpy
 RUN conda install -y scikit-image
 RUN conda install -y -c anaconda cmake
 RUN conda install -y -c conda-forge ffmpeg
-RUN conda install -y -c conda-forge poetry
+# RUN conda install -y -c conda-forge poetry
 
 
 RUN pip install svgwrite
@@ -53,11 +53,11 @@ RUN pip install numba
 RUN pip install torch-tools
 RUN pip install visdom
 
-RUN poetry install
+# RUN poetry install
 
-RUN poetry run python setup.py install
+# RUN poetry run python setup.py install
 
-#RUN python setup.py install
+RUN python setup.py install
 
 # RUN git submodule update --init --recursive
 # RUN conda install -y numpy

@@ -24,6 +24,8 @@ RUN git clone https://github.com/CompVis/taming-transformers.git
 RUN git clone https://github.com/BachiLi/diffvg
 
 # Compile diffvg
+ENV DPYTHON3_LIBRARY /root/miniconda3/lib/libpython3.9.so
+
 WORKDIR diffvg
 RUN git submodule update --init --recursive
 RUN conda install -y numpy
